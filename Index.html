@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aitchikh Consulting | منصة التخطيط الاستراتيجي</title>
+    <!-- خط القاهرة العربي -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- مكتبة الرسوم البيانية -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -27,6 +29,7 @@
             overflow-x: hidden;
         }
 
+        /* تنسيق الهيدر */
         header {
             background: var(--primary);
             color: var(--white);
@@ -59,6 +62,7 @@
         
         .logo span { color: var(--accent); }
 
+        /* منطقة الهيرو */
         .hero {
             background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
             color: white;
@@ -92,6 +96,7 @@
             margin: 0 auto;
         }
 
+        /* الحاويات والبطاقات */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -123,6 +128,7 @@
             .hero h1 { font-size: 2rem; }
         }
 
+        /* المدخلات */
         label {
             display: block;
             margin-bottom: 10px;
@@ -150,6 +156,7 @@
             box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
 
+        /* الأزرار */
         button.btn-primary {
             background: var(--primary);
             color: white;
@@ -177,6 +184,7 @@
             transform: none;
         }
 
+        /* التحميل */
         .loading-container {
             display: none;
             text-align: center;
@@ -195,6 +203,7 @@
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* النتائج */
         #dashboard {
             display: none;
             animation: fadeIn 0.8s ease-out;
@@ -255,6 +264,7 @@
             .charts-row { grid-template-columns: 1fr; }
         }
 
+        /* تنسيق تقرير الذكاء الاصطناعي */
         .report-section {
             background: white;
             padding: 35px;
@@ -320,7 +330,6 @@
             font-size: 0.9rem;
         }
 
-        /* Status Message for Retries */
         #statusMessage {
             color: var(--accent);
             font-weight: bold;
@@ -415,9 +424,10 @@
 </footer>
 
 <script>
-    const API_KEY = "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";
+    // هام: ضع مفتاح OpenRouter الخاص بك هنا
+    const API_KEY = "YOUR_OPENROUTER_API_KEY_HERE";
     
-    // قائمة الموديلات التي سنحاول الاتصال بها بالترتيب (إذا فشل الأول نجرب الثاني)
+    // قائمة الموديلات المجانية والمدفوعة التي سنحاول الاتصال بها
     const MODELS = [
         "google/gemini-2.0-flash-exp:free",
         "meta-llama/llama-3.3-70b-instruct:free",
@@ -434,8 +444,14 @@
         const details = document.getElementById('details').value;
         const statusMsg = document.getElementById('statusMessage');
 
+        // تحقق بسيط من المدخلات
         if (!idea || !details || !budget) {
             alert("يرجى ملء جميع الحقول.");
+            return;
+        }
+
+        if (API_KEY === "YOUR_OPENROUTER_API_KEY_HERE") {
+            alert("يرجى إضافة مفتاح API في كود الصفحة أولاً.");
             return;
         }
 
@@ -446,31 +462,33 @@
         document.getElementById('dashboard').style.display = 'none';
         document.getElementById('projectTitleDisplay').innerText = `مشروع: ${idea}`;
 
-        // رسم المخططات البيانية
+        // رسم المخططات البيانية (حسابات تقريبية)
         renderCharts(budget);
 
+        // نص الطلب للذكاء الاصطناعي
         const prompt = `
-            أنت مستشار أعمال خبير في السوق الجزائري.
+            أنت مستشار أعمال خبير في السوق الجزائري (2025).
             المشروع: ${idea}
             المجال: ${field}
             الميزانية: ${budget} DZD
             التفاصيل: ${details}
 
-            المطلوب: تقرير HTML (داخل div فقط) احترافي جداً باللهجة الجزائرية الرسمية أو العربية الفصحى.
-            1. جدول منافسين في الجزائر (أسماء حقيقية).
-            2. جدول SWOT.
-            3. خطة توزيع الميزانية (${budget} دج).
-            4. جدول زمني.
-            5. تسويق رقمي في الجزائر.
-            6. تحديات (بيروقراطية، دفع إلكتروني...) وحلولها.
+            المطلوب: تقرير HTML (داخل div فقط بدون html/head) احترافي جداً باللهجة الجزائرية المهنية أو العربية الفصحى المفهومة.
             
-            التنسيق: استخدم <h3> للعناوين و <table> للجداول و <div class="report-section"> لكل قسم.
+            الهيكل المطلوب:
+            1. <div class="report-section"> <h3>دراسة المنافسين في الجزائر</h3>: جدول يحتوي على منافسين محتملين (أسماء حقيقية أو افتراضية قوية) ونقاط ضعفهم.
+            2. <div class="report-section"> <h3>تحليل SWOT</h3>: جدول نقاط القوة، الضعف، الفرص، التهديدات.
+            3. <div class="report-section"> <h3>خطة توزيع الميزانية (${budget} دج)</h3>: تفصيل دقيق للتكاليف (كراء، تجهيز، تسويق، رواتب).
+            4. <div class="report-section"> <h3>استراتيجية التسويق</h3>: كيف نسوق في الجزائر (Facebook Ads, Instagram, Influencers).
+            5. <div class="report-section"> <h3>التحديات والحلول</h3>: (البيروقراطية، الدفع عند الاستلام، التوصيل).
+            
+            التنسيق: استخدم فقط وسوم <h3> للعناوين و <table> للجداول و <p> و <ul> للنصوص.
         `;
 
         let success = false;
         let finalContent = "";
 
-        // محاولة الاتصال بالموديلات بالترتيب (Retry Logic with Fallback)
+        // محاولة الاتصال بالموديلات بالترتيب
         for (const model of MODELS) {
             try {
                 statusMsg.innerText = `جاري التحليل باستخدام: ${model.split('/')[1]}...`;
@@ -487,7 +505,7 @@
                     body: JSON.stringify({
                         "model": model,
                         "messages": [
-                            {"role": "system", "content": "أنت خبير اقتصادي جزائري."},
+                            {"role": "system", "content": "أنت خبير اقتصادي ومستشار مشاريع في الجزائر."},
                             {"role": "user", "content": prompt}
                         ]
                     })
@@ -502,23 +520,28 @@
                 if (data.choices && data.choices.length > 0) {
                     finalContent = data.choices[0].message.content;
                     success = true;
-                    break; // نجح الاتصال، نخرج من الحلقة
+                    break; // نجح الاتصال
                 }
 
             } catch (error) {
                 console.warn(`Failed with model ${model}:`, error);
-                statusMsg.innerText = `تعذر الاتصال بالموديل، جاري المحاولة بموديل آخر...`;
-                await new Promise(r => setTimeout(r, 1500)); // انتظار قليل قبل المحاولة التالية
+                statusMsg.innerText = `الموديل مشغول، جاري المحاولة بموديل آخر...`;
+                await new Promise(r => setTimeout(r, 1000));
             }
         }
 
         if (success) {
+            // تنظيف الكود من علامات Markdown إذا وجدت
             const cleanHtml = finalContent.replace(/```html/g, '').replace(/```/g, '');
             document.getElementById('aiResults').innerHTML = cleanHtml;
             document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+            
+            // التمرير للأسفل
+            setTimeout(() => {
+                document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
         } else {
-            alert("عذراً، الخوادم مشغولة جداً حالياً. يرجى المحاولة بعد قليل.");
+            alert("عذراً، الخوادم مشغولة جداً حالياً أو مفتاح API غير صحيح. يرجى المحاولة لاحقاً.");
         }
 
         document.getElementById('loader').style.display = 'none';
@@ -530,6 +553,7 @@
         if (myGrowthChart) myGrowthChart.destroy();
 
         const budgetNum = parseFloat(totalBudget);
+        // توزيع افتراضي للميزانية
         const equipment = budgetNum * 0.40;
         const marketing = budgetNum * 0.25;
         const salaries = budgetNum * 0.20;
@@ -539,14 +563,14 @@
         myBudgetChart = new Chart(ctxBudget, {
             type: 'doughnut',
             data: {
-                labels: ['تجهيزات', 'تسويق', 'رواتب', 'مصاريف'],
+                labels: ['تجهيزات ومعدات', 'تسويق وإعلانات', 'رواتب فريق العمل', 'مصاريف تشغيلية'],
                 datasets: [{
                     data: [equipment, marketing, salaries, other],
                     backgroundColor: ['#1e3a8a', '#d97706', '#64748b', '#cbd5e1'],
                     borderWidth: 0
                 }]
             },
-            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+            options: { responsive: true, plugins: { legend: { position: 'bottom', rtl: true, labels: { font: { family: 'Cairo' } } } } }
         });
 
         const ctxGrowth = document.getElementById('growthChart').getContext('2d');
@@ -555,14 +579,15 @@
             data: {
                 labels: ['شهر 1', 'شهر 2', 'شهر 3', 'شهر 4', 'شهر 5', 'شهر 6'],
                 datasets: [{
-                    label: 'العائد (د.ج)',
+                    label: 'العائد المتوقع (د.ج)',
                     data: [0, budgetNum * 0.05, budgetNum * 0.15, budgetNum * 0.25, budgetNum * 0.40, budgetNum * 0.60],
                     borderColor: '#d97706',
                     backgroundColor: 'rgba(217, 119, 6, 0.1)',
-                    fill: true
+                    fill: true,
+                    tension: 0.4
                 }]
             },
-            options: { responsive: true }
+            options: { responsive: true, plugins: { legend: { labels: { font: { family: 'Cairo' } } } } }
         });
     }
 </script>
