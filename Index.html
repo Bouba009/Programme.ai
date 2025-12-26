@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aitchikh Consulting | منصة التخطيط الاستراتيجي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary: #1e3a8a; /* أزرق ملكي */
+            --accent: #d97706; /* ذهبي غامق */
+            --bg-light: #f1f5f9;
+            --white: #ffffff;
+            --text-main: #0f172a;
+            --shadow: 0 10px 40px -10px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo span { color: var(--accent); }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px 120px;
+            margin-bottom: -60px;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: var(--bg-light);
+            clip-path: polygon(0 100%, 100% 100%, 100% 0);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 1);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--accent);
+            margin-bottom: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .full-width { grid-column: span 2; }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .hero h1 { font-size: 2rem; }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: #f8fafc;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        button.btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        button.btn-primary:hover {
+            background: #172554;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        button:disabled {
+            background: #94a3b8;
+            cursor: wait;
+            transform: none;
+        }
+
+        .loading-container {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #e2e8f0;
+            border-top: 6px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        #dashboard {
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .dashboard-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .dashboard-header .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        .chart-box h3 {
+            text-align: center;
+            color: var(--text-main);
+            margin-top: 0;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-row { grid-template-columns: 1fr; }
+        }
+
+        .report-section {
+            background: white;
+            padding: 35px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-right: 6px solid var(--accent);
+        }
+
+        .report-section h3 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 25px 0;
+            font-size: 0.95rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        td { border-left: 1px solid #e2e8f0; }
+        td:last-child { border-left: none; }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+        tr:hover { background-color: #f1f5f9; }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: var(--primary);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-top: 80px;
+        }
+        
+        .dzd-label {
+            position: absolute;
+            left: 15px;
+            top: 48px;
+            color: #64748b;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Status Message for Retries */
+        #statusMessage {
+            color: var(--accent);
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">Aitchikh<span>Consulting</span></div>
+        <div style="font-size: 0.9rem;">شريكك الاستراتيجي في الجزائر</div>
+    </div>
+</header>
+
+<div class="hero">
+    <h1>حوّل فكرتك إلى مشروع ناجح</h1>
+    <p>تحليل سوق دقيق، دراسة منافسين، وخطط مالية بالدينار الجزائري<br>مدعومة بأقوى تقنيات الذكاء الاصطناعي.</p>
+</div>
+
+<div class="container">
+    <div class="glass-card">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>مجال المشروع</label>
+                <select id="field">
+                    <option value="تجارة إلكترونية">تجارة إلكترونية (E-commerce)</option>
+                    <option value="خدمات وتوصيل">خدمات وتوصيل (Delivery & Services)</option>
+                    <option value="تقنية وبرمجة">تقنية وبرمجة (Tech & Startups)</option>
+                    <option value="مطاعم ومقاهي">مطاعم ومواد غذائية</option>
+                    <option value="تعليم وتدريب">تعليم وتدريب</option>
+                    <option value="صناعة وحرف">صناعة وحرف يدوية</option>
+                    <option value="فلاحة">فلاحة وزراعة</option>
+                    <option value="أخرى">مجال آخر</option>
+                </select>
+            </div>
+            
+            <div class="form-group" style="position: relative;">
+                <label>رأس المال المقدر (بالدينار الجزائري)</label>
+                <input type="number" id="budget" placeholder="مثال: 1000000">
+                <span class="dzd-label">DZD</span>
+            </div>
+
+            <div class="form-group full-width">
+                <label>عنوان أو فكرة المشروع</label>
+                <input type="text" id="idea" placeholder="مثال: تطبيق توصيل طلبات من المتاجر المحلية">
+            </div>
+
+            <div class="form-group full-width">
+                <label>تفاصيل المشروع</label>
+                <textarea id="details" rows="5" placeholder="اكتب تفاصيل الفكرة، من هم عملاؤك في الجزائر؟ ما هي الخدمات بالضبط؟..."></textarea>
+            </div>
+        </div>
+        <button onclick="startAnalysis()" id="btnSubmit" class="btn-primary">تحليل المشروع وإنشاء الخطة 🚀</button>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loader" class="loading-container">
+        <div class="spinner"></div>
+        <h3>جاري دراسة السوق الجزائري...</h3>
+        <p style="color: #64748b;">نقوم الآن بتحليل المنافسين وحساب التكاليف بالدينار</p>
+        <p id="statusMessage">جاري محاولة الاتصال بالسيرفر...</p>
+    </div>
+
+    <!-- Results Dashboard -->
+    <div id="dashboard">
+        <div class="dashboard-header">
+            <span class="badge">تقرير استشاري شامل</span>
+            <h2 id="projectTitleDisplay">عنوان المشروع</h2>
+        </div>
+
+        <div class="charts-row">
+            <div class="chart-box">
+                <h3>توزيع الميزانية (DZD)</h3>
+                <canvas id="budgetChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>توقعات العائدات (6 أشهر)</h3>
+                <canvas id="growthChart"></canvas>
+            </div>
+        </div>
+
+        <div id="aiResults"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="logo" style="justify-content: center; margin-bottom: 10px;">Aitchikh<span>Consulting</span></div>
+    <p>© 2025 جميع الحقوق محفوظة. تم التطوير باستخدام الذكاء الاصطناعي.</p>
+</footer>
+
+<script>
+    const API_KEY = "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";
+    
+    // قائمة الموديلات التي سنحاول الاتصال بها بالترتيب (إذا فشل الأول نجرب الثاني)
+    const MODELS = [
+        "google/gemini-2.0-flash-exp:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "google/gemini-2.0-flash-thinking-exp:free"
+    ];
+
+    let myBudgetChart = null;
+    let myGrowthChart = null;
+
+    async function startAnalysis() {
+        const field = document.getElementById('field').value;
+        const idea = document.getElementById('idea').value;
+        const budget = document.getElementById('budget').value;
+        const details = document.getElementById('details').value;
+        const statusMsg = document.getElementById('statusMessage');
+
+        if (!idea || !details || !budget) {
+            alert("يرجى ملء جميع الحقول.");
+            return;
+        }
+
+        // إعداد الواجهة
+        document.getElementById('btnSubmit').disabled = true;
+        document.getElementById('loader').style.display = 'block';
+        statusMsg.style.display = 'block';
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('projectTitleDisplay').innerText = `مشروع: ${idea}`;
+
+        // رسم المخططات البيانية
+        renderCharts(budget);
+
+        const prompt = `
+            أنت مستشار أعمال خبير في السوق الجزائري.
+            المشروع: ${idea}
+            المجال: ${field}
+            الميزانية: ${budget} DZD
+            التفاصيل: ${details}
+
+            المطلوب: تقرير HTML (داخل div فقط) احترافي جداً باللهجة الجزائرية الرسمية أو العربية الفصحى.
+            1. جدول منافسين في الجزائر (أسماء حقيقية).
+            2. جدول SWOT.
+            3. خطة توزيع الميزانية (${budget} دج).
+            4. جدول زمني.
+            5. تسويق رقمي في الجزائر.
+            6. تحديات (بيروقراطية، دفع إلكتروني...) وحلولها.
+            
+            التنسيق: استخدم <h3> للعناوين و <table> للجداول و <div class="report-section"> لكل قسم.
+        `;
+
+        let success = false;
+        let finalContent = "";
+
+        // محاولة الاتصال بالموديلات بالترتيب (Retry Logic with Fallback)
+        for (const model of MODELS) {
+            try {
+                statusMsg.innerText = `جاري التحليل باستخدام: ${model.split('/')[1]}...`;
+                console.log(`Trying model: ${model}`);
+
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${API_KEY}`,
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": window.location.href,
+                        "X-Title": "Aitchikh Consulting"
+                    },
+                    body: JSON.stringify({
+                        "model": model,
+                        "messages": [
+                            {"role": "system", "content": "أنت خبير اقتصادي جزائري."},
+                            {"role": "user", "content": prompt}
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.choices && data.choices.length > 0) {
+                    finalContent = data.choices[0].message.content;
+                    success = true;
+                    break; // نجح الاتصال، نخرج من الحلقة
+                }
+
+            } catch (error) {
+                console.warn(`Failed with model ${model}:`, error);
+                statusMsg.innerText = `تعذر الاتصال بالموديل، جاري المحاولة بموديل آخر...`;
+                await new Promise(r => setTimeout(r, 1500)); // انتظار قليل قبل المحاولة التالية
+            }
+        }
+
+        if (success) {
+            const cleanHtml = finalContent.replace(/```html/g, '').replace(/```/g, '');
+            document.getElementById('aiResults').innerHTML = cleanHtml;
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert("عذراً، الخوادم مشغولة جداً حالياً. يرجى المحاولة بعد قليل.");
+        }
+
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('btnSubmit').disabled = false;
+    }
+
+    function renderCharts(totalBudget) {
+        if (myBudgetChart) myBudgetChart.destroy();
+        if (myGrowthChart) myGrowthChart.destroy();
+
+        const budgetNum = parseFloat(totalBudget);
+        const equipment = budgetNum * 0.40;
+        const marketing = budgetNum * 0.25;
+        const salaries = budgetNum * 0.20;
+        const other = budgetNum * 0.15;
+
+        const ctxBudget = document.getElementById('budgetChart').getContext('2d');
+        myBudgetChart = new Chart(ctxBudget, {
+            type: 'doughnut',
+            data: {
+                labels: ['تجهيزات', 'تسويق', 'رواتب', 'مصاريف'],
+                datasets: [{
+                    data: [equipment, marketing, salaries, other],
+                    backgroundColor: ['#1e3a8a', '#d97706', '#64748b', '#cbd5e1'],
+                    borderWidth: 0
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+        myGrowthChart = new Chart(ctxGrowth, {
+            type: 'line',
+            data: {
+                labels: ['شهر 1', 'شهر 2', 'شهر 3', 'شهر 4', 'شهر 5', 'شهر 6'],
+                datasets: [{
+                    label: 'العائد (د.ج)',
+                    data: [0, budgetNum * 0.05, budgetNum * 0.15, budgetNum * 0.25, budgetNum * 0.40, budgetNum * 0.60],
+                    borderColor: '#d97706',
+                    backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                    fill: true
+                }]
+            },
+            options: { responsive: true }
+        });
+    }
+</script>
+
+</body>
+</html>
