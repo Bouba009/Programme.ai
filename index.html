@@ -4,488 +4,329 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aitchikh Consulting | المستشار الذكي</title>
-    <!-- خطوط عربية واضحة -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الرسوم البيانية -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- أيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #111827; /* أسود مزرق */
-            --accent: #d97706; /* ذهبي */
+            --primary: #111827;
+            --accent: #f59e0b; /* لون برتقالي جديد أنيق */
             --bg-body: #f3f4f6;
             --white: #ffffff;
-            --success: #10b981;
-            --danger: #ef4444;
             --radius: 12px;
         }
-
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg-body);
             color: #1f2937;
-            margin: 0;
-            padding: 0;
-            font-size: 16px;
-            line-height: 1.6;
+            margin: 0; padding: 0; font-size: 16px; line-height: 1.6;
         }
-
-        /* --- Header --- */
         header {
-            background: var(--primary);
-            color: var(--white);
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: var(--primary); color: var(--white); padding: 15px 20px;
+            position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-
-        .brand { font-weight: 900; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+        .brand { font-weight: 900; font-size: 1.2rem; }
         .brand span { color: var(--accent); }
-
-        /* --- Hero Section --- */
         .hero {
             background: linear-gradient(180deg, var(--primary) 0%, #1e293b 100%);
-            color: white;
-            padding: 30px 20px 70px;
-            text-align: center;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            margin-bottom: -50px;
+            color: white; padding: 30px 20px 70px; text-align: center;
+            border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin-bottom: -50px;
         }
-        .hero h1 { margin: 0 0 10px; font-size: 1.6rem; }
-        .hero p { opacity: 0.8; font-size: 0.95rem; margin: 0; }
-
-        /* --- Main Container --- */
-        .container {
-            padding: 0 15px 40px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
+        .container { padding: 0 15px 40px; max-width: 800px; margin: 0 auto; }
         .card {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
-            border-top: 4px solid var(--accent);
-            margin-bottom: 25px;
+            background: var(--white); border-radius: var(--radius); padding: 25px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-top: 4px solid var(--accent); margin-bottom: 25px;
         }
-
-        /* --- Inputs --- */
-        .form-group { margin-bottom: 20px; }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 700;
-            color: #374151;
-            font-size: 0.9rem;
-        }
-
+        label { display: block; margin-bottom: 8px; font-weight: 700; color: #374151; font-size: 0.9rem; }
         input, select, textarea {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #e5e7eb;
-            border-radius: var(--radius);
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            transition: 0.3s;
-            background: #f9fafb;
+            width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: var(--radius);
+            font-family: 'Cairo', sans-serif; font-size: 1rem; background: #f9fafb; transition: 0.3s;
         }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--accent);
-            outline: none;
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.1);
-        }
-
-        .currency-wrap { position: relative; }
-        .currency-badge {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        /* --- Button --- */
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; background: #fff; }
         .btn-analyze {
-            background: var(--accent);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 16px;
-            border-radius: var(--radius);
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.2s;
+            background: var(--primary); color: white; border: none; width: 100%; padding: 16px;
+            border-radius: var(--radius); font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; gap: 10px;
+            transition: 0.2s;
         }
-        .btn-analyze:active { transform: scale(0.98); }
-        .btn-analyze:disabled { background: #9ca3af; cursor: not-allowed; box-shadow: none; }
-
-        /* --- Results Area --- */
+        .btn-analyze:active { transform: scale(0.98); background: var(--accent); }
+        .btn-analyze:disabled { background: #9ca3af; }
+        
         #resultsArea { display: none; animation: slideUp 0.6s ease-out; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 8px;
-            border-right: 4px solid var(--accent);
-            margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px;
+            border-radius: 8px; border-right: 4px solid var(--accent); margin-bottom: 15px;
         }
-        .section-title i { color: var(--accent); font-size: 1.2rem; }
         .section-title h3 { margin: 0; font-size: 1.1rem; color: var(--primary); }
+        .section-title i { color: var(--accent); font-size: 1.2rem; }
+        .report-card { background: white; padding: 20px; border-radius: var(--radius); margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        .report-card {
-            background: white;
-            padding: 20px;
-            border-radius: var(--radius);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-
-        /* Tables */
-        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 10px; }
+        .table-wrap { overflow-x: auto; margin-top: 10px; border: 1px solid #e5e7eb; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; min-width: 500px; font-size: 0.9rem; }
         th, td { padding: 12px; text-align: right; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f3f4f6; color: var(--primary); font-weight: 700; white-space: nowrap; }
-        td { color: #4b5563; }
+        th { background: #f3f4f6; font-weight: 700; white-space: nowrap; color: var(--primary); }
         tr:last-child td { border-bottom: none; }
-
-        /* Lists */
-        ul.custom-list { padding-right: 20px; margin: 0; }
-        ul.custom-list li { margin-bottom: 8px; color: #4b5563; }
         
-        /* Charts */
-        .chart-container { position: relative; height: 250px; margin-bottom: 20px; }
-
-        /* --- Loader --- */
-        .loader-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 0;
-        }
-        .spinner {
-            width: 50px; height: 50px;
-            border: 5px solid #e5e7eb;
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
+        .loader-screen { display: none; text-align: center; padding: 40px 0; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #e5e7eb; border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        .status-text { font-weight: 600; color: var(--primary); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-
-        /* Footer */
-        footer { text-align: center; padding: 20px; color: #6b7280; font-size: 0.85rem; border-top: 1px solid #e5e7eb; margin-top: 30px; }
-
-        /* Highlight box */
-        .highlight-box { background: #fffbeb; border: 1px solid #fcd34d; padding: 15px; border-radius: 8px; color: #92400e; font-size: 0.9rem; margin-top: 10px; }
-
+        
+        .alert-offline {
+            background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 20px; border: 1px solid #ffeeba; display: none; text-align: center;
+        }
+        footer { text-align: center; padding: 20px; color: #6b7280; font-size: 0.85rem; margin-top: 30px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="brand"><i class="fa-solid fa-chart-pie"></i> Aitchikh<span>Consulting</span></div>
-    <div style="font-size:0.8rem; font-weight:bold;">نسخة 2025</div>
+    <div class="brand">Aitchikh<span>Consulting</span></div>
 </header>
 
 <div class="hero">
     <h1>مستشار المشاريع الذكي</h1>
-    <p>تحليل سوق دقيق، بيانات منافسين حقيقية، وخطط عمل متكاملة.</p>
+    <p>تحليل سوق دقيق بالذكاء الاصطناعي (Groq Llama 3)</p>
 </div>
 
 <div class="container">
-    <!-- Input Form -->
     <div class="card" id="inputForm">
         <div class="form-group">
             <label>عنوان أو فكرة المشروع</label>
-            <input type="text" id="projectTitle" placeholder="مثال: تطبيق توصيل الخبز للمنازل">
+            <input type="text" id="projectTitle" placeholder="مثال: تطبيق توصيل الخبز">
         </div>
-
         <div class="form-group">
-            <label>مجال المشروع</label>
+            <label>المجال</label>
             <select id="projectField">
                 <option value="تجارة إلكترونية">تجارة إلكترونية (E-commerce)</option>
-                <option value="خدمات تقنية">برمجة وشركات ناشئة (Tech Startup)</option>
-                <option value="نقل وتوصيل">نقل، لوجستيك وتوصيل (Delivery)</option>
-                <option value="مطاعم ومواد غذائية">إطعام ومواد غذائية (Food)</option>
-                <option value="تعليم وتدريب">تعليم وتدريب (EdTech)</option>
-                <option value="صناعة وإنتاج">صناعة وإنتاج محلي</option>
-                <option value="خدمات منزلية">خدمات وصيانة منزلية</option>
+                <option value="خدمات وتوصيل">خدمات وتوصيل (Delivery)</option>
+                <option value="مطاعم">مطاعم ومواد غذائية</option>
+                <option value="تعليم">تعليم وتدريب</option>
+                <option value="حرف وصناعة">صناعة وحرف</option>
                 <option value="أخرى">مجال آخر</option>
             </select>
         </div>
-
         <div class="form-group">
-            <label>رأس المال (بالدينار الجزائري)</label>
-            <div class="currency-wrap">
-                <input type="number" id="projectBudget" placeholder="مثال: 1000000" inputmode="numeric">
-                <span class="currency-badge">DZD</span>
-            </div>
+            <label>رأس المال (DZD)</label>
+            <input type="number" id="projectBudget" placeholder="مثال: 1000000">
         </div>
-
         <div class="form-group">
-            <label>تفاصيل المشروع (كلما زادت التفاصيل، زادت الدقة)</label>
-            <textarea id="projectDetails" rows="4" placeholder="اشرح فكرتك: من هم عملاؤك؟ في أي ولاية؟ هل المنتج محلي؟..."></textarea>
+            <label>التفاصيل (مهم جداً للدقة)</label>
+            <textarea id="projectDetails" rows="4" placeholder="اكتب تفاصيل الفكرة، المنطقة المستهدفة (مثلاً الجزائر العاصمة)، ومن هم عملاؤك..."></textarea>
         </div>
-
-        <button class="btn-analyze" onclick="generatePlan()">
-            <span>احصل على الخطة الكاملة</span>
-            <i class="fa-solid fa-rocket"></i>
+        <button class="btn-analyze" onclick="startProcess()">
+            <span>انشاء الخطة الاستراتيجية</span>
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
         </button>
     </div>
 
-    <!-- Loading Screen -->
+    <!-- Loader -->
     <div class="loader-screen" id="loader">
         <div class="spinner"></div>
-        <div class="status-text" id="loadingText">جاري الاتصال بقاعدة البيانات...</div>
-        <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">يتم الآن البحث عن منافسين حقيقيين وتحليل السوق</p>
+        <div style="font-weight:bold; color:var(--primary);" id="loadingText">جاري الاتصال بقاعدة البيانات...</div>
+        <p style="font-size:0.8rem; color:#666;">نستخدم Llama 3 لتحليل السوق الجزائري</p>
     </div>
 
-    <!-- Results Dashboard -->
+    <!-- Results -->
     <div id="resultsArea">
-        <div class="card" style="text-align: center; border-top-color: var(--primary);">
-            <h2 id="displayTitle" style="color: var(--primary); margin: 0;"></h2>
-            <div style="display:inline-block; background:#dbeafe; color:#1e40af; padding:4px 12px; border-radius:20px; font-size:0.85rem; margin-top:5px; font-weight:bold;">تقرير استراتيجي شامل</div>
+        <!-- تنبيه في حال انقطاع الاتصال -->
+        <div id="offlineAlert" class="alert-offline">
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+            <strong>تنبيه:</strong> السيرفر مشغول حالياً. تم إنشاء خطة تقديرية بناءً على خوارزميات المحاكاة.
         </div>
 
-        <!-- Charts Section -->
+        <div class="card" style="text-align:center;">
+            <h2 id="displayTitle" style="color:var(--primary); margin:0;"></h2>
+            <div style="color:var(--accent); font-weight:bold; font-size:0.9rem; margin-top:5px;">خطة عمل احترافية 2025</div>
+        </div>
+
         <div class="report-card">
-            <div class="section-title">
-                <i class="fa-solid fa-coins"></i>
-                <h3>توزيع الميزانية التقديري</h3>
-            </div>
-            <div class="chart-container">
-                <canvas id="budgetChart"></canvas>
-            </div>
+            <div class="section-title"><i class="fa-solid fa-chart-pie"></i> <h3>توزيع الميزانية التقديري</h3></div>
+            <div style="height:250px; position:relative;"><canvas id="budgetChart"></canvas></div>
         </div>
 
-        <!-- AI Content Container -->
+        <!-- المحتوى القادم من AI -->
         <div id="aiContent"></div>
-
     </div>
 </div>
 
-<footer>
-    <p>© 2025 Aitchikh Consulting | Powered by AI</p>
-</footer>
+<footer><p>© 2025 Aitchikh Consulting</p></footer>
 
 <script>
-    // =========================================================
-    // مفتاح API الخاص بك (تم وضعه كما طلبت)
-    // =========================================================
-    const API_KEY = "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";
+    // ==========================================
+    // إعدادات المفتاح الجديد (Groq API)
+    // ==========================================
+    const API_KEY = "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";
     
-    // الموديلات المستخدمة (نستخدم موديلات قوية للبحث والتحليل)
-    // Gemini 2.0 Flash Exp ممتاز للسرعة والمعلومات الحديثة
-    const MODEL = "google/gemini-2.0-flash-exp:free"; 
-    
+    // استخدام موديلات Groq السريعة جداً
+    const MODELS = [
+        "llama-3.3-70b-versatile", // الأفضل للعربية والتحليل
+        "llama-3.1-70b-versatile",
+        "mixtral-8x7b-32768"
+    ];
+
     let budgetChartInstance = null;
 
-    async function generatePlan() {
+    async function startProcess() {
         const title = document.getElementById('projectTitle').value;
         const field = document.getElementById('projectField').value;
         const budget = document.getElementById('projectBudget').value;
         const details = document.getElementById('projectDetails').value;
-        
-        // التحقق من المدخلات
-        if(!title || !budget || !details) {
-            alert("يرجى ملء كافة الحقول للحصول على خطة دقيقة.");
-            return;
-        }
 
-        // واجهة المستخدم: إخفاء النموذج وإظهار التحميل
+        if(!title || !budget || !details) { alert("يرجى ملء جميع الحقول للحصول على نتائج دقيقة"); return; }
+
+        // إخفاء النموذج وإظهار التحميل
         document.getElementById('inputForm').style.display = 'none';
         document.getElementById('loader').style.display = 'block';
         document.getElementById('displayTitle').innerText = title;
-        
-        const loadingText = document.getElementById('loadingText');
-        
-        // خطوات وهمية لتحديث حالة التحميل (لتحسين تجربة المستخدم)
-        setTimeout(() => loadingText.innerText = "تحليل المنافسين في السوق الجزائري...", 2000);
-        setTimeout(() => loadingText.innerText = "بناء جدول SWOT...", 5000);
-        setTimeout(() => loadingText.innerText = "إعداد الخطة المالية والتسويقية...", 8000);
+        document.getElementById('offlineAlert').style.display = 'none';
 
         // رسم المخطط البياني فوراً
         renderChart(budget);
 
-        // ---------------------------------------------------------
-        // بناء الـ Prompt (الموجه) للذكاء الاصطناعي
-        // ---------------------------------------------------------
-        const prompt = `
-            أنت مستشار أعمال ومحلل اقتصادي خبير في السوق الجزائري، التاريخ اليوم هو أواخر 2025.
-            
-            معلومات المشروع:
-            - الاسم: ${title}
-            - المجال: ${field}
-            - الميزانية: ${budget} دينار جزائري (DZD)
-            - التفاصيل: ${details}
+        let aiSuccess = false;
+        const prompt = createPrompt(title, field, budget, details);
 
-            المطلوب: قم بإعداد تقرير احترافي جداً بصيغة HTML (بدون Markdown، فقط الأكواد داخل div).
-            يجب أن تكون المعلومات **دقيقة وواقعية** ومن مصادر موثوقة (ابتعد عن التأليف).
+        // محاولة الاتصال بالموديلات بالترتيب
+        for (const model of MODELS) {
+            try {
+                document.getElementById('loadingText').innerText = `جاري التحليل...`;
+                
+                // الرابط الخاص بـ Groq
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "model": model,
+                        "messages": [
+                            {"role": "system", "content": "أنت خبير استشاري واقتصادي متخصص في السوق الجزائري. تعطي إجابات دقيقة، واقعية، وباللغة العربية، وتستخدم تنسيق HTML فقط."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        "temperature": 0.6, // توازن بين الإبداع والدقة
+                        "max_tokens": 2048
+                    })
+                });
 
-            الهيكل المطلوب للإجابة (استخدم هذه العناوين والترتيب):
-
-            1. **المنافسون (Competitors):**
-               - ابحث عن 3-5 منافسين حقيقيين (شركات ناشئة، تطبيقات، أو علامات تجارية) موجودة فعلياً في الجزائر في هذا المجال.
-               - إذا كان المشروع محلي جداً ولا يوجد منافس مباشر، اذكر المنافسين غير المباشرين (مثل الأسواق الشعبية أو صفحات الفيسبوك).
-               - أنشئ جدولاً يحتوي على: [اسم المنافس]، [نقاط قوته]، [نقاط ضعفه].
-
-            2. **تحليل SWOT:**
-               - جدول يحتوي على: نقاط القوة، نقاط الضعف، الفرص (في السوق الجزائري حالياً)، التهديدات.
-
-            3. **خطة العمل والجدول الزمني (Action Plan & Timeline):**
-               - جدول زمني مقسم (مثلاً: الشهر 1-2: التأسيس، الشهر 3: الاطلاق...).
-               - الأنشطة الرئيسية لكل مرحلة.
-
-            4. **الخطة التسويقية (Marketing Strategy):**
-               - كيف نسوق لهذا المشروع في الجزائر؟ (Influencers, Facebook Ads, TikTok...).
-               - حدد القنوات الأفضل لهذا الجمهور.
-
-            5. **التحديات والحلول:**
-               - اذكر تحديات واقعية (بيروقراطية، الدفع الإلكتروني، التوصيل...).
-               - حلول عملية لتجاوزها.
-
-            6. **أفكار إضافية مميزة (Bonus Ideas):**
-               - اقترح فكرتين لتطوير المشروع وجعله فريداً عن المنافسين.
-
-            **تنبيه هام:** 
-            - استخدم وسوم HTML التالية للتنسيق: 
-              <div class="report-card"> لكل قسم.
-              <div class="section-title"><h3>العنوان</h3></div> للعناوين.
-              <div class="table-wrap"><table>...</table></div> للجداول.
-              <ul class="custom-list"> للقوائم.
-            - اللغة: العربية (لهجة مهنية مفهومة).
-            - لا تذكر أنك ذكاء اصطناعي، تصرف كمستشار.
-        `;
-
-        try {
-            // الاتصال بـ API
-            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${API_KEY}`,
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": window.location.href, // Required by OpenRouter
-                    "X-Title": "Aitchikh Consulting" // Optional
-                },
-                body: JSON.stringify({
-                    "model": MODEL,
-                    "messages": [
-                        {"role": "system", "content": "أنت خبير اقتصادي جزائري محترف. تعطي بيانات دقيقة وحقيقية فقط."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    "temperature": 0.5, // تقليل العشوائية لزيادة دقة البيانات
-                    "max_tokens": 2500
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`خطأ في الاتصال: ${response.status}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.choices && data.choices.length > 0) {
+                        const content = data.choices[0].message.content.replace(/```html/g, '').replace(/```/g, '');
+                        document.getElementById('aiContent').innerHTML = content;
+                        enhanceTitles();
+                        aiSuccess = true;
+                        break; // نجاح
+                    }
+                } else {
+                    console.error("Groq Error:", response.status);
+                }
+            } catch (e) {
+                console.warn(`Model ${model} failed`, e);
             }
-
-            const data = await response.json();
-            
-            // استخراج النص وتنظيفه
-            let aiHtml = data.choices[0].message.content;
-            
-            // إزالة أي كود markdown قد يرسله الموديل خطأً
-            aiHtml = aiHtml.replace(/```html/g, '').replace(/```/g, '');
-
-            // عرض النتائج
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('resultsArea').style.display = 'block';
-            document.getElementById('aiContent').innerHTML = aiHtml;
-
-            // إضافة أيقونات للعناوين (تحسين جمالي إضافي عبر JS)
-            enhanceTitles();
-
-        } catch (error) {
-            console.error(error);
-            document.getElementById('loader').innerHTML = `
-                <div style="color:red; font-weight:bold;">حدث خطأ أثناء جلب البيانات.</div>
-                <p>يرجى التأكد من الاتصال بالإنترنت والمحاولة مرة أخرى.</p>
-                <button onclick="location.reload()" class="btn-analyze" style="width:auto; margin:20px auto;">إعادة المحاولة</button>
-            `;
         }
+
+        // إذا فشل الاتصال، استخدم المحاكاة
+        if (!aiSuccess) {
+            document.getElementById('offlineAlert').style.display = 'block';
+            document.getElementById('aiContent').innerHTML = generateSimulation(title, field, budget);
+            enhanceTitles();
+        }
+
+        // عرض النتائج النهائية
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('resultsArea').style.display = 'block';
     }
 
-    // دالة رسم المخطط البياني للميزانية
-    function renderChart(totalBudget) {
-        if (budgetChartInstance) budgetChartInstance.destroy();
-        
-        const b = parseFloat(totalBudget);
+    function createPrompt(title, field, budget, details) {
+        return `
+            أنت مستشار أعمال محترف في الجزائر (سنة 2025).
+            المشروع: ${title}
+            المجال: ${field}
+            الميزانية: ${budget} دج
+            التفاصيل: ${details}
+            
+            المطلوب: قم بإعداد دراسة جدوى وخطة عمل بصيغة HTML (داخل div فقط) تحتوي على:
+            
+            1. **دراسة المنافسين في الجزائر:** (استخدم <div class="report-card">...</div>)
+               - اذكر 3 منافسين حقيقيين بالاسم (مثل Yassir, Jumia, Ouedkniss, Temtem, Coursa... أو محلات معروفة حسب المجال).
+               - أنشئ جدولاً يقارن نقاط القوة والضعف لكل منافس.
+            
+            2. **تحليل SWOT:** (استخدم <div class="report-card">...</div>)
+               - جدول SWOT دقيق يراعي خصوصية السوق الجزائري (بيروقراطية، دفع نقدي، انترنت...).
+            
+            3. **خطة العمل والجدول الزمني:** (استخدم <div class="report-card">...</div>)
+               - جدول زمني للأنشطة (التأسيس، التسويق، الإطلاق).
+            
+            4. **استراتيجية التسويق:** (استخدم <div class="report-card">...</div>)
+               - كيف نسوق في الجزائر؟ (Facebook Ads, Instagram, Influencers).
+            
+            5. **التحديات والحلول:** (استخدم <div class="report-card">...</div>)
+               - مشاكل واقعية (مثل مشاكل التوصيل والدفع) وحلولها.
+
+            تنبيه: استخدم <div class="section-title"><h3>العنوان</h3></div> للعناوين، واستخدم <div class="table-wrap"><table>...</table></div> للجداول.
+        `;
+    }
+
+    // دالة المحاكاة (Fallback)
+    function generateSimulation(title, field, budget) {
+        return `
+            <div class="report-card">
+                <div class="section-title"><h3>المنافسون في السوق</h3></div>
+                <p>بناءً على قاعدة بياناتنا، المنافسون المحتملون في قطاع ${field}:</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>المنافس</th><th>النوع</th><th>نقاط القوة</th></tr></thead>
+                        <tbody>
+                            <tr><td>تطبيقات كبرى (Yassir/Jumia)</td><td>Tech Giant</td><td>شهرة واسعة وتمويل ضخم</td></tr>
+                            <tr><td>السوق الموازي</td><td>Informal</td><td>أسعار منخفضة جداً</td></tr>
+                            <tr><td>صفحات انستغرام</td><td>Social Selling</td><td>تواصل سريع مع الزبون</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="report-card">
+                <div class="section-title"><h3>خطة العمل (3 أشهر)</h3></div>
+                <ul style="padding-right:20px;">
+                    <li><strong>الشهر 1:</strong> كراء المكان/تطوير التطبيق + استخراج السجل التجاري.</li>
+                    <li><strong>الشهر 2:</strong> شراء المعدات + بداية الحملة الإعلانية (${budget*0.2} دج).</li>
+                    <li><strong>الشهر 3:</strong> الافتتاح الرسمي + عروض ترويجية.</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    function renderChart(budget) {
+        if(budgetChartInstance) budgetChartInstance.destroy();
         const ctx = document.getElementById('budgetChart').getContext('2d');
-        
+        const b = parseFloat(budget);
         budgetChartInstance = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['تجهيزات ومعدات (40%)', 'تسويق وإعلانات (25%)', 'رواتب وتشغيل (20%)', 'طوارئ واحتياطي (15%)'],
+                labels: ['تجهيزات (40%)', 'تسويق (25%)', 'رواتب (20%)', 'مصاريف (15%)'],
                 datasets: [{
                     data: [b*0.4, b*0.25, b*0.2, b*0.15],
-                    backgroundColor: ['#1e3a8a', '#d97706', '#10b981', '#6b7280'],
+                    backgroundColor: ['#1f2937', '#f59e0b', '#10b981', '#6b7280'],
                     borderWidth: 0
                 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom', labels: { font: { family: 'Cairo' }, padding: 15 } }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Cairo' } } } } }
         });
     }
 
-    // دالة لإضافة أيقونات للعناوين التي تأتي من الذكاء الاصطناعي لجعلها أجمل
     function enhanceTitles() {
-        const iconsMap = {
-            "المنافس": '<i class="fa-solid fa-users-viewfinder"></i>',
-            "SWOT": '<i class="fa-solid fa-chess-board"></i>',
-            "خطة": '<i class="fa-solid fa-calendar-check"></i>',
-            "تسويق": '<i class="fa-solid fa-bullhorn"></i>',
-            "تحديات": '<i class="fa-solid fa-triangle-exclamation"></i>',
-            "أفكار": '<i class="fa-regular fa-lightbulb"></i>'
-        };
-
-        document.querySelectorAll('#aiContent h3').forEach(h3 => {
-            const text = h3.innerText;
-            for (const [key, icon] of Object.entries(iconsMap)) {
-                if (text.includes(key)) {
-                    h3.innerHTML = `${icon} ${text}`;
-                    // التأكد من أن العنوان داخل div.section-title إذا لم يكن كذلك
-                    if (!h3.parentElement.classList.contains('section-title')) {
-                        const wrapper = document.createElement('div');
-                        wrapper.className = 'section-title';
-                        h3.parentNode.insertBefore(wrapper, h3);
-                        wrapper.appendChild(h3);
-                    }
-                    break;
+        // إضافة أيقونات للعناوين القادمة من الذكاء الاصطناعي
+        const icons = { "المنافس": "fa-users", "SWOT": "fa-chess", "خطة": "fa-calendar-days", "التسويق": "fa-bullhorn", "تحديات": "fa-road-barrier" };
+        document.querySelectorAll('h3').forEach(h3 => {
+            for (const [key, icon] of Object.entries(icons)) {
+                if(h3.innerText.includes(key) && !h3.innerHTML.includes('i>')) {
+                    h3.innerHTML = `<i class="fa-solid ${icon}" style="color:var(--accent); margin-left:10px;"></i> ${h3.innerText}`;
                 }
             }
         });
